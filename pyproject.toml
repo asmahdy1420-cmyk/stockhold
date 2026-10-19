@@ -39,7 +39,7 @@ dev = [
 stockhold = "stockhold.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/ahmedmahdy1420-cmd/stockhold"
+Homepage = "https://github.com/asmahdy1420-cmyk/stockhold"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/stockhold"]
