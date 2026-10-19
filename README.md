@@ -1,5 +1,7 @@
 # stockhold
 
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-row_locks-4169E1?logo=postgresql&logoColor=white) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?logo=sqlalchemy&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 A small inventory reservation service for e-commerce checkouts, built with FastAPI,
 SQLAlchemy 2 and PostgreSQL.
 
