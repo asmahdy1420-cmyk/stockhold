@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: stockhold
+      POSTGRES_PASSWORD: stockhold
+      POSTGRES_DB: stockhold
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stockhold -d stockhold"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    build: .
+    command: ["stockhold", "init-db"]
+    environment: &app-env
+      STOCKHOLD_DATABASE_URL: postgresql+psycopg://stockhold:stockhold@db:5432/stockhold
+      STOCKHOLD_DEFAULT_TTL_SECONDS: "900"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build: .
+    environment: *app-env
+    ports:
+      - "8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  sweeper:
+    build: .
+    command: ["stockhold", "expire", "--every", "30"]
+    environment: *app-env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:
