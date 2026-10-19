@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stockhold"
+version = "0.1.0"
+description = "Concurrency-safe inventory reservation service for e-commerce carts, built on FastAPI and PostgreSQL."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Ahmed Mahdy", email = "mahdy@progma.tech" }]
+requires-python = ">=3.11"
+keywords = ["inventory", "reservation", "e-commerce", "fastapi", "postgresql", "idempotency"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: FastAPI",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+]
+dependencies = [
+    "fastapi>=0.110",
+    "pydantic>=2.5",
+    "sqlalchemy>=2.0.25",
+    "uvicorn>=0.27",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.1"]
+dev = [
+    "httpx>=0.27",
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+stockhold = "stockhold.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ahmedmahdy/stockhold"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/stockhold"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "SIM", "C4", "UP"]
+# The code base also runs on older interpreters during local development,
+# so keep typing.Optional, timezone.utc and (str, Enum) instead of the newer spellings.
+ignore = ["UP007", "UP017", "UP042", "UP045"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Header", "fastapi.Query"]
