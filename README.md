@@ -1,6 +1,6 @@
 # stockhold
 
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-row_locks-4169E1?logo=postgresql&logoColor=white) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?logo=sqlalchemy&logoColor=white) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 A small inventory reservation service for e-commerce checkouts, built with FastAPI,
 SQLAlchemy 2 and PostgreSQL.
@@ -9,6 +9,16 @@ When a shopper starts checkout, `stockhold` holds the items in their cart for a 
 time. The hold either becomes an order (confirm), is given back (release), or lapses on
 its own (expire). Two shoppers can never be sold the last unit, and a retried "Place
 order" click never creates a second order.
+
+## Screenshots
+
+Five units in stock: a cart reserves two, a second cart asking for four gets a 409 with the short line, the first cart confirms into an order, and a repeated confirm with the same `Idempotency-Key` is replayed. Run locally with docker compose, using throwaway data.
+
+![Reserve, conflict, confirm and idempotent replay](docs/screenshots/reserve-confirm-flow.png)
+
+The endpoints listed in the interactive API docs at `/docs`.
+
+![Swagger UI](docs/screenshots/api-docs.png)
 
 ## Why
 
